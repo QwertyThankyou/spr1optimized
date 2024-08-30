@@ -6,8 +6,10 @@
     <title>Unity WebGL Player | Samolov SPR</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <!-- Добавление meta тега для мобильных устройств -->
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
   </head>
-  <body>
+  <body onload="goFullscreen();">
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -57,11 +59,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/SPROptimization.loader.js";
+      var loaderUrl = buildUrl + "/SPR2.loader.js";
       var config = {
-        dataUrl: buildUrl + "/SPROptimization.data",
-        frameworkUrl: buildUrl + "/SPROptimization.framework.js",
-        codeUrl: buildUrl + "/SPROptimization.wasm",
+        dataUrl: buildUrl + "/eb0d208f1b79a5fa8632c30dbb499070.data.unityweb",
+        frameworkUrl: buildUrl + "/4f90bf41eb71fe558092d3380ba3e299.js.unityweb",
+        codeUrl: buildUrl + "/c94e2d23ea27b78918319ee37d5e144b.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Samolov SPR",
@@ -90,7 +92,6 @@
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
 
-
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
@@ -105,17 +106,33 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
-              }).catch((message) => {
-                alert(message);
-              });
-            };
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
 
       document.body.appendChild(script);
+
+      // Функция для перехода в полноэкранный режим
+      function goFullscreen() {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+          document.documentElement.msRequestFullscreen();
+        }
+      }
+
+      // Прокрутка страницы вниз на 1 пиксель для скрытия адресной строки
+      window.scrollTo(0, 1);
 
     </script>
   </body>
